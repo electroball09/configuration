@@ -9,7 +9,7 @@ public class Config
     public static readonly Type DEFAULT_CONTROLLER_TYPE = typeof(NullConfigurationController);
     public static readonly string LOCAL_CONFIG_PATH;
     public const string DEFAULT_CONFIG_NAME = "Game";
-    public const string PERSISTENT_CONFIG_FOLDER_NAME = "Hovertanks/";
+    public static readonly string PERSISTENT_CONFIG_FOLDER_NAME = Application.companyName + "/";
     public static readonly string PERSISTENT_CONFIG_PATH;
 
     private static IConfiguration localConfig;

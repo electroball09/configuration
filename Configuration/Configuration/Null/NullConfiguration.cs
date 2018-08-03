@@ -11,7 +11,7 @@ public class NullConfiguration : IConfiguration
     public string FileName { get { return null; } }
     public bool IsUpToDate { get { return true; } }
 
-    public string GetString(string section, string key)
+    public string GetString(string section, string key, int index = 0)
     {
         return "";
     }
@@ -21,22 +21,22 @@ public class NullConfiguration : IConfiguration
         return emptyStringArray;
     }
 
-    public float GetFloat(string section, string key, float defaultValue)
+    public float GetFloat(string section, string key, float defaultValue, int index = 0)
     {
         return defaultValue;
     }
 
-    public int GetInt(string section, string key, int defaultValue)
+    public int GetInt(string section, string key, int defaultValue, int index = 0)
     {
         return defaultValue;
     }
 
-    public bool GetBool(string section, string key, bool defaultValue)
+    public bool GetBool(string section, string key, bool defaultValue, int index = 0)
     {
         return defaultValue;
     }
 
-    public Vector3 GetVector3(string section, string key, Vector3 defaultValue)
+    public Vector3 GetVector3(string section, string key, Vector3 defaultValue, int index = 0)
     {
         return defaultValue;
     }
@@ -46,22 +46,22 @@ public class NullConfiguration : IConfiguration
         return emptyStringArray;
     }
 
-    public T Get<T>(string section, string key, T defaultValue)
+    public T Get<T>(string section, string key, T defaultValue, int index = 0)
     {
         return defaultValue;
     }
 
-    public object Get(Type type, string section, string key, object defaultValue)
+    public object Get(Type type, string section, string key, object defaultValue, int index = 0)
     {
         return defaultValue;
     }
 
-    public void Set(string section, string key, object value)
+    public void Set(string section, string key, object value, int index = 0)
     {
 
     }
 
-    public void Set(string section, string key, string value)
+    public void Set(string section, string key, string value, int index = 0)
     {
 
     }
