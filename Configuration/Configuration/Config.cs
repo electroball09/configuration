@@ -3,10 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ConfigLocation
+{
+    Local = 0,
+    Persistent = 1
+}
+
 public class Config
 {
     public const string STARTUP_CONFIG_CONTROLLER_TYPE_KEY = "ConfigurationController";
-    public static readonly Type DEFAULT_CONTROLLER_TYPE = typeof(NullConfigurationController);
+    public static readonly Type DEFAULT_CONTROLLER_TYPE = typeof(IniConfigurationController);
     public static readonly string LOCAL_CONFIG_PATH;
     public const string DEFAULT_CONFIG_NAME = "Game";
     public static readonly string PERSISTENT_CONFIG_FOLDER_NAME = Application.companyName + "/";

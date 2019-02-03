@@ -46,9 +46,13 @@ public class IniConfiguration : IConfiguration
         {
             if (m_keys.ContainsKey(key))
             {
-                if (m_keys.Count <= index)
+                if (m_keys[key].Count == 0)
                 {
-                    for (int i = m_keys.Count - 1; i < index; i++)
+                    m_keys[key].Add("");
+                }
+                else if (m_keys[key].Count <= index)
+                {
+                    for (int i = m_keys[key].Count - 1; i < index; i++)
                     {
                         m_keys[key].Add("");
                     }
@@ -132,7 +136,7 @@ public class IniConfiguration : IConfiguration
         return newSection;
     }
 
-    private bool verifyFileExists()
+    private FileStream getFileStream(FileAccess fileAccess)
     {
         if (!Directory.Exists(m_filePath))
         {
@@ -141,21 +145,17 @@ public class IniConfiguration : IConfiguration
 
         if (!File.Exists(m_filePath + m_fileName + FILE_EXTENSION))
         {
-            File.Create(m_filePath + m_fileName + FILE_EXTENSION);
-            return false;
+            return new FileStream(m_filePath + m_fileName + FILE_EXTENSION, FileMode.OpenOrCreate, fileAccess);
         }
 
-        return true;
+        return new FileStream(m_filePath + m_fileName + FILE_EXTENSION, FileMode.OpenOrCreate, fileAccess);
     }
 
     public void ReadFile()
     {
         m_sections.Clear();
 
-        if (!verifyFileExists())
-            return;
-
-        using (StreamReader sr = new StreamReader(m_filePath + m_fileName + FILE_EXTENSION))
+        using (StreamReader sr = new StreamReader(getFileStream(FileAccess.Read)))
         {
             string line = "";
             IniSection currentSection = null;
@@ -176,7 +176,7 @@ public class IniConfiguration : IConfiguration
 
                 if (currentSection == null) //discard any data before first section
                     continue;
-                
+
                 //parse value
                 string[] values = line.Split(KEYVALUE_SEPARATOR);
                 if (values.Length == 2)
@@ -203,8 +203,13 @@ public class IniConfiguration : IConfiguration
 
     public void SaveFile()
     {
-        verifyFileExists();
-        File.WriteAllLines(m_filePath + m_fileName + FILE_EXTENSION, GetFileStrings());
+        using (StreamWriter sw = new StreamWriter(getFileStream(FileAccess.Write)))
+        {
+            foreach (string str in GetFileStrings())
+            {
+                sw.WriteLine(str);
+            }
+        }
 
         m_isUpToDate = true;
     }
