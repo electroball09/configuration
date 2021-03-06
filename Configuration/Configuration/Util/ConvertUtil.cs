@@ -25,6 +25,26 @@ public class ConvertUtil
         { typeof(Vector3), ConvertVector3ToStr },
     };
 
+    public static Func<string, object> GetConverter(Type type, bool extraConverters = false)
+    {
+        if (convertersFromString.ContainsKey(type))
+        {
+            return convertersFromString[type];
+        }
+
+        if (extraConverters)
+        {
+            return TypeDescriptor.GetConverter(type).ConvertFromString;
+        }
+
+        return default;
+    }
+
+    public static Func<string, object> GetConverter<T>(bool strict = false)
+    {
+        return GetConverter(typeof(T), strict);
+    }
+
     public static object ConvertFromStr(Type type, string str)
     {
         if (convertersFromString.ContainsKey(type))
